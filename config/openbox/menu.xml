@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+  <menu id="root-menu" label="wired">
+    <separator label="wired"/>
+    <item label="Terminal" icon="/home/dougdotcon/.local/share/icons/wired/16/terminal.png">
+      <action name="Execute"><command>/home/dougdotcon/.local/bin/wired-terminal</command></action>
+    </item>
+    <item label="Arquivos" icon="/home/dougdotcon/.local/share/icons/wired/16/folder.png">
+      <action name="Execute"><command>/home/dougdotcon/.local/bin/wired-launch action -- pcmanfm</command></action>
+    </item>
+    <item label="Chrome" icon="/usr/share/icons/hicolor/32x32/apps/google-chrome.png">
+      <action name="Execute"><command>/home/dougdotcon/.local/bin/wired-launch action -- google-chrome</command></action>
+    </item>
+    <item label="Mousepad" icon="/usr/share/icons/hicolor/32x32/apps/org.xfce.mousepad.png">
+      <action name="Execute"><command>/home/dougdotcon/.local/bin/wired-launch action -- mousepad</command></action>
+    </item>
+    <separator/>
+    <menu id="client-list-menu" label="Janelas"/>
+    <separator/>
+    <item label="Area de trabalho" icon="/home/dougdotcon/.local/share/icons/wired/16/desktop.png">
+      <action name="Execute"><command>pcmanfm --desktop-pref</command></action>
+    </item>
+    <item label="Som" icon="/home/dougdotcon/.local/share/icons/wired/16/volume.png">
+      <action name="Execute"><command>pavucontrol</command></action>
+    </item>
+    <item label="Rede" icon="/home/dougdotcon/.local/share/icons/wired/16/network.png">
+      <action name="Execute"><command>nm-connection-editor</command></action>
+    </item>
+    <item label="Bluetooth" icon="/usr/share/icons/hicolor/48x48/apps/blueman.png">
+      <action name="Execute"><command>blueman-manager</command></action>
+    </item>
+    <item label="Sobre o Sistema" icon="/home/dougdotcon/.local/share/icons/wired/16/settings.png">
+      <action name="Execute"><command>/home/dougdotcon/.local/bin/wired-about</command></action>
+    </item>
+    <separator/>
+    <item label="Recarregar">
+      <action name="Reconfigure"/>
+    </item>
+    <item label="Encerrar sessao" icon="/home/dougdotcon/.local/share/icons/wired/16/power.png">
+      <action name="Execute"><command>lxde-logout</command></action>
+    </item>
+  </menu>
+</openbox_menu>

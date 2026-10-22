@@ -1,0 +1,4 @@
+#!/bin/bash
+# Abre o terminal com um blip curto.
+/home/dougdotcon/.local/bin/wired-audio play terminal
+exec /usr/bin/lxterminal "$@"

@@ -1,0 +1,11 @@
+NAME="wired OS"
+PRETTY_NAME="wired OS 13 (trixie)"
+ID=wired
+ID_LIKE=debian
+VERSION_ID="13"
+VERSION="13 (trixie)"
+VERSION_CODENAME=trixie
+DEBIAN_VERSION_FULL=13.6
+HOME_URL="https://github.com/dougdotcon"
+SUPPORT_URL="https://github.com/dougdotcon"
+BUG_REPORT_URL="https://github.com/dougdotcon"

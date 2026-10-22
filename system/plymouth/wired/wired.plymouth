@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Wired
+Description=present day, present time
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/wired
+ScriptFile=/usr/share/plymouth/themes/wired/wired.script

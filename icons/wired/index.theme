@@ -1,0 +1,21 @@
+[Icon Theme]
+Name=wired
+Comment=Phosphor marks. Inherits Adwaita and hicolor for application icons.
+Inherits=Adwaita,hicolor
+Example=folder
+Directories=16,22,48
+
+[16]
+Size=16
+Context=Apps
+Type=Fixed
+
+[22]
+Size=22
+Context=Apps
+Type=Fixed
+
+[48]
+Size=48
+Context=Apps
+Type=Fixed

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Reiniciar
+Exec=systemctl reboot
+Icon=/home/dougdotcon/.local/share/icons/wired/48/reboot.png
+Terminal=false
+Type=Application
+Categories=System;

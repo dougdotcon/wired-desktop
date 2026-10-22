@@ -1,0 +1,9 @@
+#!/bin/bash
+# wired-launch <aviso> -- comando...
+cue="${1:-action}"
+shift || true
+if [[ "${1:-}" == "--" ]]; then
+	shift
+fi
+/home/dougdotcon/.local/bin/wired-audio play "$cue"
+exec "$@"

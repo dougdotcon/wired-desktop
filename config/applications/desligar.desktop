@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Desligar
+Exec=systemctl poweroff
+Icon=/home/dougdotcon/.local/share/icons/wired/48/power.png
+Terminal=false
+Type=Application
+Categories=System;

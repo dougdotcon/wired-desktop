@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+import sys
+import os
+import platform
+import subprocess
+import gi
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
+
+def get_system_info():
+    info = []
+    # OS
+    os_name = "wired OS 13 (trixie)"
+    if os.path.exists('/etc/os-release'):
+        with open('/etc/os-release') as f:
+            for line in f:
+                if line.startswith('PRETTY_NAME='):
+                    os_name = line.split('=', 1)[1].strip().strip('"')
+                    break
+    info.append(("Sistema Operacional", os_name))
+    
+    # Kernel & Arch
+    info.append(("Kernel", f"{platform.system()} {platform.release()} ({platform.machine()})"))
+    
+    # Hostname & User
+    info.append(("Host / Usuário", f"{platform.node()} / {os.getenv('USER', 'dougdotcon')}"))
+    
+    # Desktop
+    de = os.getenv('XDG_CURRENT_DESKTOP', 'LXDE')
+    wm = "Openbox (wired theme)"
+    info.append(("Interface", f"{de} / {wm}"))
+    
+    # CPU
+    cpu_name = "Intel Atom x5-Z8350 (4) @ 1.44GHz"
+    try:
+        with open('/proc/cpuinfo') as f:
+            for line in f:
+                if 'model name' in line:
+                    cpu_name = line.split(':', 1)[1].strip()
+                    break
+    except Exception:
+        pass
+    info.append(("Processador", cpu_name))
+    
+    # Memory
+    mem_total = "2.0 GB"
+    try:
+        with open('/proc/meminfo') as f:
+            for line in f:
+                if 'MemTotal:' in line:
+                    kb = int(line.split()[1])
+                    mem_total = f"{kb / (1024*1024):.1f} GB"
+                    break
+    except Exception:
+        pass
+    info.append(("Memória RAM", mem_total))
+    
+    # Hardware Model
+    hw_model = "Positivo Tecnologia SA Q232A"
+    try:
+        vendor = subprocess.check_output(['cat', '/sys/devices/virtual/dmi/id/sys_vendor'], stderr=subprocess.DEVNULL).decode().strip()
+        product = subprocess.check_output(['cat', '/sys/devices/virtual/dmi/id/product_name'], stderr=subprocess.DEVNULL).decode().strip()
+        if vendor and product:
+            hw_model = f"{vendor} {product}"
+    except Exception:
+        pass
+    info.append(("Hardware", hw_model))
+    
+    return info
+
+class WiredAboutWindow(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="Sobre o Sistema // wired")
+        self.set_default_size(480, 420)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_resizable(False)
+        self.set_border_width(16)
+        
+        # Apply CSS
+        css = b"""
+        window {
+            background-color: #070b09;
+            color: #c8f5d4;
+            border: 1px solid #1f4d38;
+            font-family: "DejaVu Sans Mono", monospace;
+        }
+        .header-title {
+            color: #9dffb0;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .header-sub {
+            color: #6fd3c8;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+        .info-key {
+            color: #4a907a;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .info-val {
+            color: #c8f5d4;
+            font-size: 11px;
+        }
+        button {
+            background-color: #101612;
+            color: #9dffb0;
+            border: 1px solid #1f4d38;
+            border-radius: 3px;
+            padding: 6px 20px;
+            font-size: 11px;
+            font-family: "DejaVu Sans Mono", monospace;
+        }
+        button:hover {
+            background-color: #143028;
+            color: #b8ffc9;
+            border-color: #9dffb0;
+        }
+        """
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
+        self.add(main_box)
+        
+        # Header
+        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        title_label = Gtk.Label(label="WIRED OS")
+        title_label.get_style_context().add_class("header-title")
+        title_label.set_xalign(0.5)
+        
+        sub_label = Gtk.Label(label="present day, present time · the wired is open")
+        sub_label.get_style_context().add_class("header-sub")
+        sub_label.set_xalign(0.5)
+        
+        header_box.pack_start(title_label, False, False, 0)
+        header_box.pack_start(sub_label, False, False, 0)
+        main_box.pack_start(header_box, False, False, 0)
+        
+        # Separator
+        sep = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        main_box.pack_start(sep, False, False, 0)
+        
+        # Specs Grid
+        grid = Gtk.Grid()
+        grid.set_column_spacing(18)
+        grid.set_row_spacing(9)
+        grid.set_margin_start(10)
+        grid.set_margin_end(10)
+        
+        info_items = get_system_info()
+        for row, (k, v) in enumerate(info_items):
+            lbl_k = Gtk.Label(label=f"{k}:")
+            lbl_k.get_style_context().add_class("info-key")
+            lbl_k.set_xalign(0.0)
+            
+            lbl_v = Gtk.Label(label=v)
+            lbl_v.get_style_context().add_class("info-val")
+            lbl_v.set_xalign(0.0)
+            lbl_v.set_line_wrap(True)
+            
+            grid.attach(lbl_k, 0, row, 1, 1)
+            grid.attach(lbl_v, 1, row, 1, 1)
+            
+        main_box.pack_start(grid, True, True, 0)
+        
+        # Footer
+        footer_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        btn_close = Gtk.Button(label="Fechar [ESC]")
+        btn_close.connect("clicked", lambda b: self.destroy())
+        footer_box.pack_end(btn_close, False, False, 0)
+        main_box.pack_end(footer_box, False, False, 6)
+        
+        self.connect("key-press-event", self.on_key_press)
+        self.connect("destroy", Gtk.main_quit)
+
+    def on_key_press(self, widget, event):
+        if event.keyval == Gdk.KEY_Escape:
+            self.destroy()
+            return True
+        return False
+
+def main():
+    win = WiredAboutWindow()
+    win.show_all()
+    Gtk.main()
+
+if __name__ == '__main__':
+    main()

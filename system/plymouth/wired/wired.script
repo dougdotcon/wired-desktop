@@ -1,0 +1,137 @@
+# the wired
+# boot splash. phosphor on black, one scan line, one progress bar.
+
+Window.SetBackgroundTopColor(0.0196, 0.0275, 0.0235);
+Window.SetBackgroundBottomColor(0.0196, 0.0275, 0.0235);
+
+line1.image = Image("line1.png");
+line1.sprite = Sprite(line1.image);
+line1.sprite.SetOpacity(0);
+
+line2.image = Image("line2.png");
+line2.sprite = Sprite(line2.image);
+line2.sprite.SetOpacity(0);
+
+line3.image = Image("line3.png");
+line3.sprite = Sprite(line3.image);
+line3.sprite.SetOpacity(0);
+
+scan.image = Image("scan.png");
+scan.sprite = Sprite(scan.image);
+scan.x = 0;
+scan.dir = 5;
+
+cursor.image = Image("cursor.png");
+cursor.sprite = Sprite(cursor.image);
+cursor.sprite.SetOpacity(0);
+
+bar.original = Image("bar.png");
+bar.sprite = Sprite();
+bar.progress = 0.02;
+bar.shown = -1;
+
+tick = 0;
+blink = 0;
+
+fun refresh_callback ()
+  {
+    tick = tick + 1;
+    blink = blink + 1;
+    if (blink > 44)
+      blink = 0;
+
+    fade = tick / 32;
+    if (fade > 1)
+      fade = 1;
+
+    y0 = Window.GetY() + Window.GetHeight() * 0.36;
+    x1 = Window.GetX() + Window.GetWidth() / 2 - line1.image.GetWidth() / 2;
+    x2 = Window.GetX() + Window.GetWidth() / 2 - line2.image.GetWidth() / 2;
+    x3 = Window.GetX() + Window.GetWidth() / 2 - line3.image.GetWidth() / 2;
+
+    line1.sprite.SetPosition(x1, y0, 2);
+    line1.sprite.SetOpacity(fade);
+    line2.sprite.SetPosition(x2, y0 + 42, 2);
+    line2.sprite.SetOpacity(fade);
+    line3.sprite.SetPosition(x3, y0 + 98, 2);
+    line3.sprite.SetOpacity(fade);
+
+    if (blink < 22)
+      cursor.sprite.SetOpacity(fade);
+    else
+      cursor.sprite.SetOpacity(0);
+    cursor.sprite.SetPosition(x2 + line2.image.GetWidth() + 8, y0 + 50, 4);
+
+    scan.x = scan.x + scan.dir;
+    if (scan.x > Window.GetWidth() - scan.image.GetWidth())
+      scan.dir = -5;
+    if (scan.x < 0)
+      scan.dir = 5;
+    scan.sprite.SetPosition(Window.GetX() + scan.x, Window.GetY() + Window.GetHeight() * 0.78, 3);
+    scan.sprite.SetOpacity(0.8);
+
+    if (bar.shown != bar.progress)
+      {
+        bw = Math.Int(bar.original.GetWidth() * bar.progress);
+        if (bw < 2)
+          bw = 2;
+        bar.image = bar.original.Scale(bw, bar.original.GetHeight());
+        bar.sprite.SetImage(bar.image);
+        bar.shown = bar.progress;
+      }
+    bar.sprite.SetPosition(Window.GetX() + Window.GetWidth() / 2 - bar.original.GetWidth() / 2, y0 + 142, 2);
+  }
+
+Plymouth.SetRefreshFunction(refresh_callback);
+
+fun progress_callback (duration, progress)
+  {
+    if (progress < 0.02)
+      progress = 0.02;
+    if (progress > 1)
+      progress = 1;
+    bar.progress = progress;
+  }
+
+Plymouth.SetBootProgressFunction(progress_callback);
+
+message_sprite = Sprite();
+
+fun display_message_callback (text)
+  {
+    message_sprite.SetImage(Image.Text(text, 0.43, 0.83, 0.78));
+    message_sprite.SetPosition(Window.GetX() + 36, Window.GetY() + Window.GetHeight() - 46, 8);
+    message_sprite.SetOpacity(1);
+  }
+
+fun hide_message_callback (text)
+  {
+    message_sprite.SetOpacity(0);
+  }
+
+Plymouth.SetDisplayMessageFunction(display_message_callback);
+Plymouth.SetHideMessageFunction(hide_message_callback);
+
+fun display_normal_callback ()
+  {
+    message_sprite.SetOpacity(0);
+  }
+
+fun display_password_callback (prompt, bullets)
+  {
+    message_sprite.SetImage(Image.Text(prompt, 0.62, 1.0, 0.69));
+    message_sprite.SetPosition(Window.GetX() + 36, Window.GetY() + Window.GetHeight() - 72, 8);
+    message_sprite.SetOpacity(1);
+  }
+
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+
+fun quit_callback ()
+  {
+    line1.sprite.SetOpacity(1);
+    line2.sprite.SetOpacity(1);
+    line3.sprite.SetOpacity(1);
+  }
+
+Plymouth.SetQuitFunction(quit_callback);

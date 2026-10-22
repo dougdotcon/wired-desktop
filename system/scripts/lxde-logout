@@ -1,0 +1,2 @@
+#!/bin/sh
+lxsession-logout --prompt="wired" --banner="/home/dougdotcon/.local/share/icons/wired/logout-banner.png" --side=top

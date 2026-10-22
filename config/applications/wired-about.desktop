@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Sobre o Sistema
+Comment=Informações sobre a distribuição e o hardware
+Exec=/home/dougdotcon/.local/bin/wired-about
+Icon=preferences-system
+Terminal=false
+Categories=System;Settings;
+StartupNotify=true

@@ -1,0 +1,51 @@
+#!/bin/bash
+# Prepara o alto-falante interno e toca um aviso curto.
+# O NAU8824 fica mudo com ganho acima de 25. O perfil antigo gravava 31.
+set -u
+
+SOUND_DIR="${HOME}/.local/share/sounds/wired"
+LOG="${HOME}/.cache/wired-audio.log"
+
+prepare() {
+	local i sink
+	mkdir -p "${HOME}/.cache"
+	for i in 1 2 3 4 5 6 7 8 10 12; do
+		sink=$(pactl get-default-sink 2>/dev/null || true)
+		if [[ -n "$sink" ]]; then
+			break
+		fi
+		sleep 0.4
+	done
+	pactl set-sink-mute @DEFAULT_SINK@ 0 >/dev/null 2>&1 || true
+	pactl set-sink-volume @DEFAULT_SINK@ 80% >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Ext Spk' on >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Headphone' on >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Speaker Left DACL' 25 >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Speaker Right DACR' 25 >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Speaker Left DACR' 0 >/dev/null 2>&1 || true
+	amixer -c 1 sset 'Speaker Right DACL' 0 >/dev/null 2>&1 || true
+	printf '%s prepare sink=%s\n' "$(date '+%F %T')" "${sink:-none}" >>"$LOG"
+}
+
+play_cue() {
+	local name="$1"
+	local wav="${SOUND_DIR}/${name}.wav"
+	if [[ ! -f "$wav" ]]; then
+		return 0
+	fi
+	# paplay sai sozinho. timeout impede o travamento do sox antigo.
+	timeout 3 paplay "$wav" >/dev/null 2>&1 &
+}
+
+case "${1:-}" in
+	prepare)
+		prepare
+		;;
+	play)
+		play_cue "${2:-}"
+		;;
+	*)
+		echo "uso: wired-audio prepare | wired-audio play boot|action|terminal" >&2
+		exit 2
+		;;
+esac

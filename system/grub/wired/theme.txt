@@ -1,0 +1,31 @@
+# wired
+desktop-image: "background.png"
+desktop-color: "#050706"
+title-text: ""
+title-color: "#9dffb0"
+message-color: "#6fd3c8"
+message-font: "DejaVu Sans Mono Regular 14"
+
++ boot_menu {
+  left = 18%
+  top = 58%
+  width = 64%
+  height = 22%
+  item_font = "DejaVu Sans Mono Regular 16"
+  item_color = "#1f4d38"
+  selected_item_color = "#b8ffc9"
+  item_height = 28
+  item_padding = 6
+  item_spacing = 4
+}
+
++ progress_bar {
+  id = "__timeout__"
+  left = 18%
+  top = 86%
+  width = 64%
+  height = 3
+  fg_color = "#9dffb0"
+  bg_color = "#143028"
+  border_color = "#050706"
+}

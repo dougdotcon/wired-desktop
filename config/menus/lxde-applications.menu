@@ -1,0 +1,116 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<Menu>
+	<Name>Applications</Name>
+	<DefaultAppDirs/>
+	<DefaultDirectoryDirs/>
+
+	<Menu>
+		<Name>Terminal</Name>
+		<Directory>wired-terminal.directory</Directory>
+		<Include>
+			<Filename>lxterminal.desktop</Filename>
+			<Filename>zutty.desktop</Filename>
+			<Filename>vim.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>lxterminal.desktop</Filename>
+			<Filename>zutty.desktop</Filename>
+			<Filename>vim.desktop</Filename>
+		</Layout>
+	</Menu>
+
+	<Menu>
+		<Name>Arquivos</Name>
+		<Directory>wired-arquivos.directory</Directory>
+		<Include>
+			<Filename>pcmanfm.desktop</Filename>
+			<Filename>org.xfce.mousepad.desktop</Filename>
+			<Filename>xarchiver.desktop</Filename>
+			<Filename>atril.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>pcmanfm.desktop</Filename>
+			<Filename>org.xfce.mousepad.desktop</Filename>
+			<Filename>atril.desktop</Filename>
+			<Filename>xarchiver.desktop</Filename>
+		</Layout>
+	</Menu>
+
+	<Menu>
+		<Name>Rede</Name>
+		<Directory>wired-rede.directory</Directory>
+		<Include>
+			<Filename>google-chrome.desktop</Filename>
+			<Filename>nm-connection-editor.desktop</Filename>
+			<Filename>blueman-manager.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>google-chrome.desktop</Filename>
+			<Filename>nm-connection-editor.desktop</Filename>
+			<Filename>blueman-manager.desktop</Filename>
+		</Layout>
+	</Menu>
+
+	<Menu>
+		<Name>Midia</Name>
+		<Directory>wired-midia.directory</Directory>
+		<Include>
+			<Filename>org.xfce.ristretto.desktop</Filename>
+			<Filename>org.pulseaudio.pavucontrol.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>org.xfce.ristretto.desktop</Filename>
+			<Filename>org.pulseaudio.pavucontrol.desktop</Filename>
+		</Layout>
+	</Menu>
+
+	<Menu>
+		<Name>Sistema</Name>
+		<Directory>wired-sistema.directory</Directory>
+		<Include>
+			<Filename>wired-about.desktop</Filename>
+			<Filename>pcmanfm-desktop-pref.desktop</Filename>
+			<Filename>org.xfce.mousepad-settings.desktop</Filename>
+			<Filename>reiniciar.desktop</Filename>
+			<Filename>desligar.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>wired-about.desktop</Filename>
+			<Filename>pcmanfm-desktop-pref.desktop</Filename>
+			<Filename>org.xfce.mousepad-settings.desktop</Filename>
+			<Separator/>
+			<Filename>reiniciar.desktop</Filename>
+			<Filename>desligar.desktop</Filename>
+		</Layout>
+	</Menu>
+	<Menu>
+		<Name>Inteligência Artificial</Name>
+		<Directory>wired-ia.directory</Directory>
+		<Include>
+			<Filename>grok-bot.desktop</Filename>
+			<Filename>omp.desktop</Filename>
+			<Filename>agy.desktop</Filename>
+			<Filename>grok.desktop</Filename>
+			<Filename>codex.desktop</Filename>
+			<Filename>claude.desktop</Filename>
+		</Include>
+		<Layout>
+			<Filename>grok-bot.desktop</Filename>
+			<Filename>omp.desktop</Filename>
+			<Filename>agy.desktop</Filename>
+			<Filename>grok.desktop</Filename>
+			<Filename>codex.desktop</Filename>
+			<Filename>claude.desktop</Filename>
+		</Layout>
+	</Menu>
+
+	<Layout>
+		<Menuname>Inteligência Artificial</Menuname>
+		<Menuname>Terminal</Menuname>
+		<Menuname>Arquivos</Menuname>
+		<Menuname>Rede</Menuname>
+		<Menuname>Midia</Menuname>
+		<Menuname>Sistema</Menuname>
+	</Layout>
+</Menu>
