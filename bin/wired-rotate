@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# wired-rotate: Change or toggle screen orientation on eDP-1
+# Usage:
+#   wired-rotate [right|left|normal|inverted]
+#
+
+set -euo pipefail
+
+DISPLAY="${DISPLAY:-:0}"
+OUTPUT="eDP-1"
+TARGET="${1:-toggle}"
+
+CURRENT=$(xrandr --query | grep "^$OUTPUT" | awk '{print $5}')
+case "$CURRENT" in
+    "("*) CURRENT="normal" ;;
+esac
+
+if [ "$TARGET" = "toggle" ]; then
+    if [ "$CURRENT" = "normal" ]; then
+        TARGET="right"
+    elif [ "$CURRENT" = "right" ]; then
+        TARGET="left"
+    else
+        TARGET="normal"
+    fi
+fi
+
+echo "Rotating $OUTPUT from $CURRENT to $TARGET..."
+xrandr --output "$OUTPUT" --rotate "$TARGET"
+
+# Reconfigure panel and wallpaper if needed
+openbox --reconfigure 2>/dev/null || true
+echo "Done! Screen is now: $TARGET"
