@@ -46,14 +46,14 @@ Plugin {
   type=taskbar
   Config {
     tooltips=1
-    IconsOnly=0
+    IconsOnly=1
     AcceptSkipPager=1
     ShowIconified=1
     ShowMapped=1
     UseMouseWheel=1
     UseUrgencyHint=1
     FlatButton=1
-    GroupedTasks=0
+    GroupedTasks=1
     MaxWidth=180
   }
 }
